@@ -68,10 +68,6 @@ func Configure(options map[string]string) {
 				}
 				return c, err
 			},
-			TestOnBorrow: func(c redis.Conn, t time.Time) error {
-				_, err := c.Do("PING")
-				return err
-			},
 		},
 		func(queue string) Fetcher {
 			return NewFetch(queue, make(chan *Msg), make(chan bool))
