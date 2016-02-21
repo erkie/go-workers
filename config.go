@@ -2,7 +2,6 @@ package workers
 
 import (
 	"strconv"
-	"time"
 
 	"github.com/garyburd/redigo/redis"
 )
@@ -47,8 +46,7 @@ func Configure(options map[string]string) {
 		namespace,
 		pollInterval,
 		&redis.Pool{
-			MaxIdle:     poolSize,
-			IdleTimeout: 240 * time.Second,
+			MaxIdle: poolSize,
 			Dial: func() (redis.Conn, error) {
 				c, err := redis.Dial("tcp", options["server"])
 				if err != nil {
