@@ -3,6 +3,7 @@ package workers
 import (
 	"strings"
 	"sync"
+	"time"
 )
 
 type manager struct {
@@ -68,6 +69,9 @@ func (m *manager) manage() {
 func (m *manager) loadWorkers() {
 	m.workersM.Lock()
 	for i := 0; i < m.concurrency; i++ {
+		// I ran into an issue when trying to connect a lot of redigo.Pool connections at once
+		time.Sleep(50 * time.Microsecond)
+
 		m.workers[i] = newWorker(m)
 		m.workers[i].start()
 	}
